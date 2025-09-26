@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HotSauce Shop</title>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <h1>🔥 Welcome to HotSauce Shop 🔥</h1>
+  <div id="products">
+    {% for sku, p in products.items() %}
+      <div>
+        <h2>{{ p.name }} - ${{ '%.2f' | format(p.unit_amount / 100) }}</h2>
+        <button onclick="buy('{{ sku }}')">Buy Now</button>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    async function buy(sku) {
+      const res = await fetch("/create-checkout-session", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({sku: sku, quantity: 1})
+      });
+      const data = await res.json();
+      if (data.url) window.location = data.url;
+      else alert("Error: " + JSON.stringify(data));
+    }
+  </script>
+</body>
+</html>
