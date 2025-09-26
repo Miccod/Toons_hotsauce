@@ -67,6 +67,9 @@ def create_checkout_session():
         success_url=f"{DOMAIN}/success?session_id={{CHECKOUT_SESSION_ID}}",
         cancel_url=f"{DOMAIN}/cancel",
         client_reference_id=str(order.id),
+        shipping_address_collection={
+            "allowed_countries": ["CA", "US"]  # choose where you ship
+        }
     )
     order.stripe_session_id = session.id
     db.commit()
