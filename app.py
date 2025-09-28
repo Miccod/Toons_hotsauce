@@ -34,47 +34,69 @@ def index():
 @app.route("/create-checkout-session", methods=["POST"])
 def create_checkout_session():
     data = request.json or {}
-    sku = data.get("sku")
-    quantity = int(data.get("quantity", 1))
-    product = PRODUCTS.get(sku)
-    if not product:
-        return jsonify({"error": "invalid product"}), 400
+    cart = data.get("cart", [])
 
-    # Create local order
+    if not cart:
+        return jsonify({"error": "Cart is empty"}), 400
+
     db = DBSession()
-    order = Order(
-        product_sku=sku,
-        quantity=quantity,
-        amount=product["unit_amount"] * quantity / 100.0,
-        currency=product["currency"],
-        status="pending",
-    )
-    db.add(order)
-    db.commit()
+    line_items = []
+    total_amount = 0
+    order_items = []
 
-    # Create Stripe Checkout session
-    session = stripe.checkout.Session.create(
-        payment_method_types=["card"],
-        line_items=[{
+    for item in cart:
+        sku = item.get("sku")
+        quantity = int(item.get("quantity", 1))
+        product = PRODUCTS.get(sku)
+
+        if not product:
+            return jsonify({"error": f"Invalid product {sku}"}), 400
+
+        amount = product["unit_amount"] * quantity / 100.0
+        total_amount += amount
+
+        # Save to order_items for later DB insert
+        order_items.append((sku, quantity, product, amount))
+
+        # Stripe line item
+        line_items.append({
             "price_data": {
                 "currency": product["currency"],
                 "product_data": {"name": product["name"]},
                 "unit_amount": product["unit_amount"],
             },
             "quantity": quantity,
-        }],
+        })
+
+    # Create local Order in DB (initially pending)
+    order = Order(
+        product_sku=",".join([i[0] for i in order_items]),  # multiple SKUs
+        quantity=sum(i[1] for i in order_items),
+        amount=total_amount,
+        currency="cad",
+        status="pending",
+    )
+    db.add(order)
+    db.commit()
+
+    # Create Stripe Checkout session linked to DB order
+    session = stripe.checkout.Session.create(
+        payment_method_types=["card"],
+        line_items=line_items,
         mode="payment",
         success_url=f"{DOMAIN}/success?session_id={{CHECKOUT_SESSION_ID}}",
         cancel_url=f"{DOMAIN}/cancel",
-        client_reference_id=str(order.id),
-        shipping_address_collection={
-            "allowed_countries": ["CA", "US"]  # choose where you ship
-        }
+        client_reference_id=str(order.id),  # 🔗 Link Stripe session to your DB order
+        shipping_address_collection={"allowed_countries": ["CA", "US"]}
     )
+
+    # Save Stripe session ID to DB
     order.stripe_session_id = session.id
     db.commit()
 
     return jsonify({"url": session.url})
+
+
 
 @app.route("/webhook", methods=["POST"])
 def webhook_received():
@@ -104,6 +126,9 @@ def success():
 @app.route("/cancel")
 def cancel():
     return render_template("cancel.html")
+@app.route("/cart")
+def cart():
+    return render_template("cart.html")
 
 if __name__ == "__main__":
     app.run(port=4242, debug=True)

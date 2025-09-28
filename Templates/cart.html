@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+    button { padding: 10px 15px; background: #d72638; color: white; border: none; cursor: pointer; border-radius: 6px; }
+    button:hover { background: #a91d2a; }
+  </style>
+</head>
+<body>
+  <h1>🛒 Your Cart</h1>
+  <table id="cart-table">
+    <thead>
+      <tr><th>Product</th><th>Quantity</th><th>Price</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <h2 id="total"></h2>
+  <button onclick="checkout()">Checkout</button>
+  <a href="/">← Continue Shopping</a>
+
+  <script>
+    function loadCart() {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let tbody = document.querySelector("#cart-table tbody");
+      tbody.innerHTML = "";
+      let total = 0;
+      cart.forEach(item => {
+        let row = `<tr>
+          <td>${item.name}</td>
+          <td>${item.quantity}</td>
+          <td>$${(item.price * item.quantity / 100).toFixed(2)}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+        total += item.price * item.quantity;
+      });
+      document.getElementById("total").innerText = "Total: $" + (total / 100).toFixed(2);
+    }
+
+    async function checkout() {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const res = await fetch("/create-checkout-session", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({cart})
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location = data.url;
+        localStorage.removeItem("cart"); // clear cart after starting checkout
+      } else {
+        alert("Error: " + JSON.stringify(data));
+      }
+    }
+
+    loadCart();
+  </script>
+</body>
+</html>
