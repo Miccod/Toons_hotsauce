@@ -3,26 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <title>Your Cart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://js.stripe.com/v3/"></script>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-    th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
-    button { padding: 10px 15px; background: #d72638; color: white; border: none; cursor: pointer; border-radius: 6px; }
-    button:hover { background: #a91d2a; }
+    /* sensible box model */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #fff;
+      color: #222;
+      padding: 16px;
+    }
+
+    .page {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 12px;
+      /* extra bottom padding to keep content readable above the fixed button */
+      padding-bottom: 140px;
+    }
+
+    h1 { margin-top: 0; }
+
+    /* Table area wraps horizontally if needed, but table itself tries to fit */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin-bottom: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      /* key: let columns have fixed sizes so long names don't expand table */
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    /* Reserve fixed widths for qty and price columns so first column can wrap */
+    th:nth-child(2), td:nth-child(2) { width: 80px; text-align: center; white-space: nowrap; }
+    th:nth-child(3), td:nth-child(3) { width: 110px; text-align: right; white-space: nowrap; }
+
+    /* Allow the first column to break/wrap long product names */
+    th:first-child, td:first-child {
+      width: calc(100% - 190px);  /* remaining space */
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    #total {
+      margin: 12px 0;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    /* FIXED Checkout Button: always visible */
+    .checkout-container {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      width: calc(100% - 32px); /* leave page padding space */
+      max-width: 420px;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .checkout-container button {
+      width: 100%;
+      padding: 12px 18px;
+      font-size: 16px;
+      border-radius: 6px;
+      background: #d72638;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .checkout-container button:hover { background: #a91d2a; }
+
+    a.continue { display: block; text-align: center; margin-top: 8px; color: #333; text-decoration: none; }
+    a.continue:hover { text-decoration: underline; }
+
+    /* Small-screen tweaks */
+    @media (max-width: 480px) {
+      body { padding: 10px; }
+      .page { padding-bottom: 120px; }
+      th, td { padding: 8px; }
+      .checkout-container { bottom: 12px; width: calc(100% - 24px); }
+      .checkout-container button { font-size: 15px; padding: 12px; }
+    }
   </style>
 </head>
 <body>
-  <h1>🛒 Your Cart</h1>
-  <table id="cart-table">
-    <thead>
-      <tr><th>Product</th><th>Quantity</th><th>Price</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-  <h2 id="total"></h2>
-  <button onclick="checkout()">Checkout</button>
-  <a href="/">← Continue Shopping</a>
+  <div class="page">
+    <h1>🛒 Your Cart</h1>
+
+    <div class="table-wrap">
+      <table id="cart-table" aria-label="Cart table">
+        <thead>
+          <tr><th>Product</th><th>Quantity</th><th>Price</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2 id="total"></h2>
+
+    <a class="continue" href="/">← Continue Shopping</a>
+  </div>
+
+  <!-- fixed checkout container -->
+  <div class="checkout-container">
+    <button id="checkout-btn" onclick="checkout()">Checkout</button>
+  </div>
 
   <script>
     function loadCart() {
@@ -30,7 +133,9 @@
       let tbody = document.querySelector("#cart-table tbody");
       tbody.innerHTML = "";
       let total = 0;
+
       cart.forEach(item => {
+        // build row, escaping omitted for brevity
         let row = `<tr>
           <td>${item.name}</td>
           <td>${item.quantity}</td>
@@ -39,11 +144,14 @@
         tbody.innerHTML += row;
         total += item.price * item.quantity;
       });
+
       document.getElementById("total").innerText = "Total: $" + (total / 100).toFixed(2);
     }
 
     async function checkout() {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      if (!cart || cart.length === 0) { alert("Your cart is empty."); return; }
+
       const res = await fetch("/create-checkout-session", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -52,13 +160,21 @@
       const data = await res.json();
       if (data.url) {
         window.location = data.url;
-        localStorage.removeItem("cart"); // clear cart after starting checkout
+        localStorage.removeItem("cart");
       } else {
         alert("Error: " + JSON.stringify(data));
       }
     }
 
+    // render on load
     loadCart();
+
+    // DEBUG: if still broken, uncomment to print widths to console
+    // window.addEventListener('load', () => {
+    //   console.log('viewport', document.documentElement.clientWidth);
+    //   console.log('page max-width', document.querySelector('.page').offsetWidth);
+    //   console.log('table width', document.querySelector('#cart-table').offsetWidth);
+    // });
   </script>
 </body>
 </html>

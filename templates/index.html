@@ -154,6 +154,24 @@
     .cart-item { display:flex; justify-content:space-between; margin-bottom:10px; }
     #close-cart { cursor:pointer; background:none; border:none; font-size:1.5rem; color:#d72638; align-self:flex-end; }
 
+    /* Cart layout fix */
+#cart {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 40px;/* space for checkout button */  
+}
+
+#checkout-btn {
+  margin-top: auto;        /* pushes it to bottom */
+  width: 100%;             /* full width inside panel */
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 20px; /* space from bottom */
+}
+
+   
   </style>
 </head>
 <body>
