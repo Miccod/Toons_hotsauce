@@ -28,101 +28,116 @@
       top: 0;
       z-index: 10;
     }
-    header h1 { margin: 0; font-family: 'Bangers', cursive; font-size: 2rem; letter-spacing: 2px; }
+
+    header h1 {
+      margin: 0;
+      font-family: 'Bangers', cursive;
+      font-size: 2rem;
+      letter-spacing: 2px;
+    }
+
     nav a {
-      margin: 0 10px; color: white; text-decoration: none; font-weight: bold;
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
       transition: color 0.3s;
     }
     nav a:hover { color: #ffcc99; }
 
     #cart-btn {
-      background: #fff; color: #d72638; border: none; padding: 10px 18px;
-      font-weight: bold; cursor: pointer; border-radius: 8px;
+      background: #fff;
+      color: #d72638;
+      border: none;
+      padding: 10px 18px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px;
       transition: transform 0.2s ease, background 0.3s;
     }
-    #cart-btn:hover { background: #ffe6e6; transform: scale(1.05); }
+    #cart-btn:hover {
+      background: #ffe6e6;
+      transform: scale(1.05);
+    }
 
     html { scroll-behavior: smooth; }
+
     section { padding: 4rem 2rem; max-width: 1100px; margin: auto; }
-    section h2 {
-      font-family: 'Bangers', cursive; font-size: 2.5rem;
-      color: #ff9933; text-align: center; margin-bottom: 1.5rem;
-    }
+    section h2 { font-family: 'Bangers', cursive; font-size: 2.5rem; color: #ff9933; text-align: center; margin-bottom: 1.5rem; }
     section p { text-align: center; max-width: 800px; margin: auto; }
 
-    /* Hero */
     .hero {
       text-align: center;
       padding: 6rem 2rem;
       background: url("hotsauce-bg.jpg") center/cover no-repeat;
-      color: #fff; position: relative;
+      color: #fff;
+      position: relative;
     }
     .hero::after {
-      content: ""; position: absolute; top:0;left:0;right:0;bottom:0;
+      content: "";
+      position: absolute;
+      top:0;left:0;right:0;bottom:0;
       background: rgba(0,0,0,0.5);
     }
     .hero-content { position: relative; z-index: 1; }
-    .hero h2 {
-      font-family: 'Bangers', cursive; font-size: 3.5rem;
-      margin-bottom: 1rem; text-shadow: 2px 2px 8px #000;
-    }
+    .hero h2 { font-family: 'Bangers', cursive; font-size: 3.5rem; margin-bottom: 1rem; text-shadow: 2px 2px 8px #000; }
 
-    /* Products */
     .products {
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 2rem;
     }
     .product {
-      background: #262626; border-radius: 16px; padding: 20px;
-      width: 250px; text-align: center;
+      background: #262626;
+      border-radius: 16px;
+      padding: 20px;
+      width: 250px;
+      text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      position: relative;
     }
     .product:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(255,77,77,0.5); }
     .product img { max-width: 100%; border-radius: 12px; margin-bottom: 1rem; }
     .product h3 { font-family: 'Bangers', cursive; font-size: 1.5rem; margin: 0.5rem 0; }
-    .badge {
-      position: absolute; top: 10px; right: 10px; background: #ff4d4d;
-      padding: 5px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: bold;
-    }
 
     button {
       background: linear-gradient(to right, #ff4d4d, #ff9933);
-      border: none; color: white; padding: 12px;
-      font-weight: bold; cursor: pointer; border-radius: 8px;
+      border: none;
+      color: white;
+      padding: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px;
       transition: transform 0.2s ease, background 0.3s;
     }
     button:hover { transform: scale(1.07); background: linear-gradient(to right, #ff3333, #ff8000); }
 
-    /* Testimonials */
     .testimonials { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
     .testimonial {
-      background: #262626; padding: 1.5rem; border-radius: 12px;
-      width: 280px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      background: #262626;
+      padding: 1.5rem;
+      border-radius: 12px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
       font-style: italic;
     }
 
-    /* Newsletter */
-    .newsletter { text-align: center; margin-top: 3rem; }
-    .newsletter input {
-      padding: 0.8rem; border-radius: 8px; border: none;
-      width: 250px; margin-right: 10px;
-    }
-
-    /* Contact */
     .contact form {
-      display: flex; flex-direction: column;
-      max-width: 500px; margin: auto; gap: 1rem;
+      display: flex;
+      flex-direction: column;
+      max-width: 500px;
+      margin: auto;
+      gap: 1rem;
     }
-    .contact input, .contact textarea {
-      padding: 0.8rem; border-radius: 8px; border: none; font-size: 1rem;
-    }
+    .contact input, .contact textarea { padding: 0.8rem; border-radius: 8px; border: none; font-size: 1rem; }
     .contact button { width: fit-content; margin: auto; }
 
-    /* Footer */
     footer { background: #111; text-align: center; padding: 2rem 1rem; font-size: 0.9rem; color: #bbb; }
 
-    /* Cart */
+    /* Slide-in Cart */
     #cart-overlay {
       position: fixed; top:0; left:0; width:100%; height:100%;
       background: rgba(0,0,0,0.5); display:none; z-index:19;
@@ -138,22 +153,36 @@
     #cart-items { flex-grow:1; overflow-y:auto; margin-bottom:20px; }
     .cart-item { display:flex; justify-content:space-between; margin-bottom:10px; }
     #close-cart { cursor:pointer; background:none; border:none; font-size:1.5rem; color:#d72638; align-self:flex-end; }
-    #checkout-btn {
-      margin-top: auto; width: 100%; padding: 14px; font-size: 16px;
-      border-radius: 8px; box-sizing: border-box; margin-bottom: 20px;
-    }
-    #cart-total { font-weight:bold; text-align:right; margin:10px 0; }
+
+    /* Cart layout fix */
+#cart {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 40px;/* space for checkout button */  
+}
+
+#checkout-btn {
+  margin-top: auto;        /* pushes it to bottom */
+  width: 100%;             /* full width inside panel */
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 20px; /* space from bottom */
+}
+
+   
   </style>
 </head>
 <body>
   <header>
     <h1>🌶 Toon’s HotSauce</h1>
     <nav>
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#products">Shop</a>
-      <a href="#testimonials">Reviews</a>
-      <a href="#contact">Contact</a>
+      <a href="#home" onclick="navigateTo('home')">Home</a>
+      <a href="#about" onclick="navigateTo('about')">About</a>
+      <a href="#products" onclick="navigateTo('products')">Shop</a>
+      <a href="#testimonials" onclick="navigateTo('testimonials')">Reviews</a>
+      <a href="#contact" onclick="navigateTo('contact')">Contact</a>
     </nav>
     <button id="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</button>
   </header>
@@ -162,32 +191,28 @@
     <div class="hero-content">
       <h2>Turn Up the Heat 🔥</h2>
       <p>Handcrafted small-batch hot sauces that bring bold flavors and fiery heat to every dish.</p>
-      <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Now</button>
     </div>
   </section>
 
   <section id="about">
     <h2>About Us</h2>
     <p>Toon’s HotSauce started with a family recipe passed down through generations. Our passion for bold, flavorful heat inspires every bottle we craft. Fresh ingredients. Bold flavors. Fired up meals.</p>
-    <p>🌿 100% Natural | 🚫 No Preservatives | ❤️ Made with Love</p>
   </section>
 
   <section id="products">
     <h2>Our Sauces</h2>
     <div class="products">
       <div class="product">
-        <span class="badge">Best Seller</span>
         <img src="hotsauce1.jpg" alt="Smoky Chipotle HotSauce">
-        <h3>Smoky Chipotle</h3>
-        <p class="description">A smoky, medium-hot sauce with rich chipotle flavor.</p>
+        <h3>Smoky Chipotle HotSauce</h3>
+        <p class="description">A smoky, medium-hot sauce with rich chipotle flavor that elevates any meal.</p>
         <p>$8.99</p>
         <input type="number" min="1" value="1" id="qty-hotsauce_small" style="width:50px; margin-right:10px;">
         <button onclick="addToCart('hotsauce_small','Smoky Chipotle HotSauce',899)">Add to Cart</button>
       </div>
       <div class="product">
         <img src="hotsauce2.jpg" alt="Burning Love">
-        <h3>Burning Love ❤️‍🔥</h3>
-        <p>Extra spicy for true chili-heads.</p>
+        <h3>Burning Love</h3>
         <p>$8.99</p>
         <input type="number" min="1" value="1" id="qty-hotsauce_large" style="width:50px; margin-right:10px;">
         <button onclick="addToCart('hotsauce_large','Burning Love',899)">Add to Cart</button>
@@ -204,13 +229,6 @@
     </div>
   </section>
 
-  <section class="newsletter">
-    <h2>🔥 Stay in the Loop</h2>
-    <p>Join our newsletter for recipes, discounts, and new sauce drops.</p>
-    <input type="email" placeholder="Enter your email">
-    <button>Subscribe</button>
-  </section>
-
   <section class="contact" id="contact">
     <h2>Contact Us</h2>
     <form>
@@ -223,16 +241,14 @@
 
   <footer>
     <p>© 2025 Toon’s HotSauce | Follow us 🌶🔥</p>
-    <p>Instagram | TikTok | YouTube</p>
   </footer>
 
-  <!-- Cart -->
+  <!-- Slide-in Cart -->
   <div id="cart-overlay"></div>
   <div id="cart">
     <button id="close-cart">×</button>
     <h2>Your Cart</h2>
     <div id="cart-items"></div>
-    <div id="cart-total">Total: $0.00</div>
     <button id="checkout-btn">Checkout</button>
   </div>
 
@@ -255,34 +271,46 @@
       saveCart();
       openCart();
     }
+function renderCart() {
+  const itemsDiv = document.getElementById("cart-items");
+  itemsDiv.innerHTML = "";
+  let total = 0;
 
-    function renderCart() {
-      const itemsDiv = document.getElementById("cart-items");
-      itemsDiv.innerHTML = "";
-      let total = 0;
+  cart.forEach((item, index) => {
+    total += item.price * item.quantity;
 
-      cart.forEach((item, index) => {
-        total += item.price * item.quantity;
-        const div = document.createElement("div");
-        div.className = "cart-item";
-        div.innerHTML = `
-          <span>${item.name}</span>
-          <div>
-            <button onclick="changeQuantity(${index}, -1)">-</button>
-            <span>${item.quantity}</span>
-            <button onclick="changeQuantity(${index}, 1)">+</button>
-            - $${((item.price * item.quantity) / 100).toFixed(2)}
-          </div>
-        `;
-        itemsDiv.appendChild(div);
-      });
+    const div = document.createElement("div");
+    div.className = "cart-item";
 
-      cartCount.textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
-      document.getElementById("cart-total").textContent = `Total: $${(total / 100).toFixed(2)}`;
+    div.innerHTML = `
+      <span>${item.name}</span>
+      <div>
+        <button onclick="changeQuantity(${index}, -1)">-</button>
+        <span>${item.quantity}</span>
+        <button onclick="changeQuantity(${index}, 1)">+</button>
+        - $${((item.price * item.quantity) / 100).toFixed(2)}
+      </div>
+    `;
+
+    itemsDiv.appendChild(div);
+  });
+
+  const cartCount = document.getElementById("cart-count");
+  const cartTotal = document.getElementById("cart-total");
+
+  cartCount.textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
+  cartTotal.textContent = `Total: $${(total / 100).toFixed(2)}`;
+}
+
+
+    function openCart(){
+      cartEl.classList.add("active");
+      overlay.style.display="block";
     }
-
-    function openCart(){ cartEl.classList.add("active"); overlay.style.display="block"; }
-    function closeCart(){ cartEl.classList.remove("active"); overlay.style.display="none"; }
+    function closeCart(){
+      cartEl.classList.remove("active");
+      overlay.style.display="none";
+    }
 
     cartBtn.addEventListener("click", openCart);
     closeCartBtn.addEventListener("click", closeCart);
@@ -302,15 +330,24 @@
 
     window.onload=()=>{ renderCart(); }
 
+    function navigateTo(id){ document.getElementById(id).scrollIntoView({behavior:"smooth"}); history.pushState({section:id},"","/"+id); }
+    window.addEventListener("popstate",e=>{ if(e.state&&e.state.section){ document.getElementById(e.state.section).scrollIntoView({behavior:"smooth"}); } });
     function changeQuantity(index, delta) {
-      cart[index].quantity += delta;
-      if (cart[index].quantity <= 0) { cart.splice(index, 1); }
-      saveCart();
-    }
+  cart[index].quantity += delta;
+  if (cart[index].quantity <= 0) {
+    cart.splice(index, 1); // remove item if quantity is 0
+  }
+  saveCart();
+}
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+
   </script>
 </body>
 </html>
-
 
 
 
